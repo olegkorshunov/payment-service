@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class RedisSettings(BaseSettings):
@@ -6,6 +6,4 @@ class RedisSettings(BaseSettings):
     port: int = 6379
     password: str = "1234"
 
-    class Config:
-        env_prefix = "redis_"
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_prefix="redis_")

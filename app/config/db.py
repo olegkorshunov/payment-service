@@ -1,16 +1,5 @@
-from typing import Protocol
-
-from pydantic import BaseSettings
-
-from app.config.types import PostgresDsn
-
-
-class DBConfig(Protocol):
-    pool_size: int
-    pool_max_overflow: int
-    pool_recycle: int
-    pool_timeout: int
-    dsn: PostgresDsn
+from pydantic import PostgresDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DBSettings(BaseSettings):
@@ -20,5 +9,4 @@ class DBSettings(BaseSettings):
     pool_timeout: int = 10
     dsn: PostgresDsn
 
-    class Config:
-        env_prefix = "databases_"
+    model_config = SettingsConfigDict(env_prefix="databases_")

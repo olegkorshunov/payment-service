@@ -8,5 +8,5 @@ class Base(DeclarativeBase):
     pass
 
 
-engine = create_async_engine(config.database.dsn.raw_dsn, echo=True)
+engine = create_async_engine(str(config.database.dsn), echo=True)
 ASYNC_SESSION_MAKER = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)

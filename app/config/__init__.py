@@ -8,7 +8,7 @@ from .kafka import KafkaSettings
 from .rabbit import RabbitSettings
 
 application: AppSettings = AppSettings()
-database: DBSettings = DBSettings()  # type: ignore
+database: DBSettings = DBSettings()
 redis: RedisSettings = RedisSettings()
 kafka: KafkaSettings = KafkaSettings()
 rabbit: RabbitSettings = RabbitSettings()

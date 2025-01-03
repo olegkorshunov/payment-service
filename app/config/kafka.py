@@ -1,9 +1,8 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class KafkaSettings(BaseSettings):
     bootstrap_servers: list[str] = ["kafka:9092"]
     topic: str = "test-topic"
 
-    class Config:
-        env_prefix = "kafka_"
+    model_config = SettingsConfigDict(env_prefix="kafka_")

@@ -1,8 +1,8 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class AppSettings(BaseSettings):
-    name: str = "One more backend"
+    name: str = "Payments service"
     version: str = "2023.1"
     docs_url: str = "/docs"
     root_path: str = ""
@@ -11,5 +11,4 @@ class AppSettings(BaseSettings):
     log_level: str = "DEBUG"
     log_filter_urls: list[str] = ["/api/v1/ping", "/docs", "/openapi.json", "/metrics"]
 
-    class Config:
-        env_prefix = "app_"
+    model_config = SettingsConfigDict(env_prefix="app_")
