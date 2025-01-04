@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -10,3 +12,7 @@ class DBSettings(BaseSettings):
     dsn: PostgresDsn
 
     model_config = SettingsConfigDict(env_prefix="databases_")
+
+    @property
+    def dsn_host(self) -> str:
+        return urlparse(str(self.dsn)).hostname

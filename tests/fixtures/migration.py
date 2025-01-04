@@ -9,7 +9,7 @@ from app.config import database as db_config
 
 @pytest.fixture(autouse=True, scope="session")
 def migrate_db() -> Generator[None, None, None]:
-    if db_config.dsn.host not in ("postgres", "localhost"):
+    if db_config.dsn_host not in ("postgres", "localhost"):
         raise RuntimeError("Migration for tests should be applied only on test DB")
 
     config = AlembicConfig("alembic.ini")

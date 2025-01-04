@@ -28,7 +28,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-config.set_main_option("sqlalchemy.url", db_config.dsn.raw_dsn)
+config.set_main_option("sqlalchemy.url", str(db_config.dsn))
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
