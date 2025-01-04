@@ -14,5 +14,5 @@ class DBSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="databases_")
 
     @property
-    def dsn_host(self) -> str:
+    def dsn_host(self):
         return urlparse(str(self.dsn)).hostname

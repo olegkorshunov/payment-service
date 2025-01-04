@@ -27,9 +27,8 @@ class Transaction(Base, TimestampMixin):
     receiver_wallet: Mapped["Wallet"] = relationship(
         "Wallet", foreign_keys=[receiver_wallet_id], back_populates="received_transactions"
     )
-    event_id: Mapped[UUID] = mapped_column(ForeignKey("transaction_event.id"), nullable=False)
     event: Mapped["TransactionEvent"] = relationship(
-        "TransactionEvent", foreign_keys=[event_id], back_populates="transaction"
+        "TransactionEvent", foreign_keys="[Transaction.event_id]", back_populates="transaction"
     )
 
     __table_args__ = (
