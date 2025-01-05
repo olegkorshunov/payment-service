@@ -1,4 +1,5 @@
 import logging.config
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.exception_handlers import http_exception_handler, request_validation_exception_handler
@@ -12,6 +13,15 @@ from app import api, config
 
 logging.config.dictConfig(config.LOGGING)
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.redis = Redis(host=config.redis.host, port=config.redis.port, password=config.redis.password)
+    yield
+    # Note: redis stubs incorrect
+    await app.state.redis.aclose()  # type: ignore
+
+
 app = FastAPI(
     title=config.application.name,
     version=config.application.version,
@@ -19,22 +29,12 @@ app = FastAPI(
     docs_url=config.application.docs_url,
     root_path=config.application.root_path,
     default_response_class=ORJSONResponse,
+    lifespan=lifespan,
 )
 
 instrumentator = Instrumentator().instrument(app)
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
-
-
-@app.on_event("startup")
-async def _on_startup() -> None:
-    instrumentator.expose(app)
-    app.state.redis = Redis(host=config.redis.host, port=config.redis.port, password=config.redis.password)
-
-
-@app.on_event("shutdown")
-async def _on_shutdown() -> None:
-    await app.state.redis.aclose()
 
 
 app.include_router(api.v1.router, prefix="/api/v1")
