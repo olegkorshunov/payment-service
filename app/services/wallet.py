@@ -37,7 +37,7 @@ async def get_wallet_balance_by_user_id(user_id: uuid.UUID):
 
 async def create_wallet(wallet_data: WalletCreateScheme):
     async with ASYNC_SESSION_MAKER() as session:
-        wallet = Wallet(**wallet_data.dict())
+        wallet = Wallet(**wallet_data.model_dump())
         session.add(wallet)
         await session.commit()
         return wallet
