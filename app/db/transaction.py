@@ -27,9 +27,7 @@ class Transaction(Base, TimestampMixin):
     receiver_wallet: Mapped["Wallet"] = relationship(
         "Wallet", foreign_keys=[receiver_wallet_id], back_populates="received_transactions"
     )
-    event: Mapped["TransactionEvent"] = relationship(
-        "TransactionEvent", foreign_keys="[Transaction.event_id]", back_populates="transaction"
-    )
+    event: Mapped["TransactionEvent"] = relationship("TransactionEvent", back_populates="transaction")
 
     __table_args__ = (
         CheckConstraint("amount >= 0", name="check_transaction_amount_non_negative"),

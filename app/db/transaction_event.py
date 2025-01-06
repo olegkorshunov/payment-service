@@ -27,6 +27,4 @@ class TransactionEvent(Base):
     body: Mapped[dict] = mapped_column(JSONB, nullable=False)
 
     transaction_id: Mapped[UUID] = mapped_column(ForeignKey("transaction.id"), nullable=False)
-    transaction: Mapped["Transaction"] = relationship(
-        "Transaction", foreign_keys=[transaction_id], back_populates="event"
-    )
+    transaction: Mapped["Transaction"] = relationship("Transaction", back_populates="event")
